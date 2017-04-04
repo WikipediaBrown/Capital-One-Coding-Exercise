@@ -7,21 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B731B131E94403B00D135A6 /* TotalsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B731B121E94403B00D135A6 /* TotalsHeaderView.swift */; };
 		5BEF3E9E1E92BF5500E8F191 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF3E9D1E92BF5500E8F191 /* AppDelegate.swift */; };
-		5BEF3EA01E92BF5500E8F191 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF3E9F1E92BF5500E8F191 /* ViewController.swift */; };
-		5BEF3EA31E92BF5500E8F191 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BEF3EA11E92BF5500E8F191 /* Main.storyboard */; };
+		5BEF3EA01E92BF5500E8F191 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF3E9F1E92BF5500E8F191 /* AccountViewController.swift */; };
 		5BEF3EA51E92BF5500E8F191 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BEF3EA41E92BF5500E8F191 /* Assets.xcassets */; };
 		5BEF3EA81E92BF5500E8F191 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BEF3EA61E92BF5500E8F191 /* LaunchScreen.storyboard */; };
+		5BEF3EB21E92C0DC00E8F191 /* TransactionContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF3EB11E92C0DC00E8F191 /* TransactionContainer.swift */; };
+		5BEF3EB41E93909500E8F191 /* TransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF3EB31E93909500E8F191 /* TransactionTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5B731B121E94403B00D135A6 /* TotalsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TotalsHeaderView.swift; sourceTree = "<group>"; };
 		5BEF3E9A1E92BF5500E8F191 /* CapitolOneCodingExercise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CapitolOneCodingExercise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BEF3E9D1E92BF5500E8F191 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5BEF3E9F1E92BF5500E8F191 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		5BEF3EA21E92BF5500E8F191 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5BEF3E9F1E92BF5500E8F191 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		5BEF3EA41E92BF5500E8F191 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BEF3EA71E92BF5500E8F191 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5BEF3EA91E92BF5500E8F191 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5BEF3EB11E92C0DC00E8F191 /* TransactionContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionContainer.swift; sourceTree = "<group>"; };
+		5BEF3EB31E93909500E8F191 /* TransactionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +58,24 @@
 		5BEF3E9C1E92BF5500E8F191 /* CapitolOneCodingExercise */ = {
 			isa = PBXGroup;
 			children = (
+				5BEF3EB51E93909C00E8F191 /* Views */,
 				5BEF3E9D1E92BF5500E8F191 /* AppDelegate.swift */,
-				5BEF3E9F1E92BF5500E8F191 /* ViewController.swift */,
-				5BEF3EA11E92BF5500E8F191 /* Main.storyboard */,
+				5BEF3E9F1E92BF5500E8F191 /* AccountViewController.swift */,
+				5BEF3EB11E92C0DC00E8F191 /* TransactionContainer.swift */,
 				5BEF3EA41E92BF5500E8F191 /* Assets.xcassets */,
 				5BEF3EA61E92BF5500E8F191 /* LaunchScreen.storyboard */,
 				5BEF3EA91E92BF5500E8F191 /* Info.plist */,
 			);
 			path = CapitolOneCodingExercise;
+			sourceTree = "<group>";
+		};
+		5BEF3EB51E93909C00E8F191 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5BEF3EB31E93909500E8F191 /* TransactionTableViewCell.swift */,
+				5B731B121E94403B00D135A6 /* TotalsHeaderView.swift */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -126,7 +140,6 @@
 			files = (
 				5BEF3EA81E92BF5500E8F191 /* LaunchScreen.storyboard in Resources */,
 				5BEF3EA51E92BF5500E8F191 /* Assets.xcassets in Resources */,
-				5BEF3EA31E92BF5500E8F191 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,22 +150,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BEF3EA01E92BF5500E8F191 /* ViewController.swift in Sources */,
+				5BEF3EA01E92BF5500E8F191 /* AccountViewController.swift in Sources */,
 				5BEF3E9E1E92BF5500E8F191 /* AppDelegate.swift in Sources */,
+				5B731B131E94403B00D135A6 /* TotalsHeaderView.swift in Sources */,
+				5BEF3EB41E93909500E8F191 /* TransactionTableViewCell.swift in Sources */,
+				5BEF3EB21E92C0DC00E8F191 /* TransactionContainer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		5BEF3EA11E92BF5500E8F191 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5BEF3EA21E92BF5500E8F191 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		5BEF3EA61E92BF5500E8F191 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -304,6 +312,7 @@
 				5BEF3EAE1E92BF5500E8F191 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

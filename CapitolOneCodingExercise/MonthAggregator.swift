@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  MonthAggregator.swift
 //  CapitolOneCodingExercise
 //
 //  Created by Wikipedia Brown on 4/4/17.

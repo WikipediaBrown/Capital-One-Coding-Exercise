@@ -181,8 +181,10 @@ class TransactionContainer: NSObject {
                 tempDataSource.updateValue([transactionObject], forKey: monthAndYear)
             }
             
-            self.sectionKeys = tempSectionKeys
-            self.dataSource = tempDataSource
+        }
+        self.sectionKeys = tempSectionKeys
+        self.dataSource = tempDataSource
+        DispatchQueue.main.async(){
             self.delegate?.completedLoadingData()
         }
     }

@@ -10,28 +10,37 @@ import UIKit
 
 class AccountViewController: UIViewController {
     
+    
     let loadingOverlay: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.backgroundColor = .black
-        label.alpha = 0.9
+        label.alpha = 0.7
         label.textAlignment = .center
         label.textColor = .white
         label.text = "Loading..."
         return label
     }()
     
+    let errorAlert: UILabel = {
+        let label = UILabel(frame: CGRect(x: 0, y: -64, width: Int(UIScreen.main.bounds.width), height: Int(64)))
+        label.backgroundColor = .red
+        label.textAlignment = .center
+        label.textColor = .white
+        return label
+    }()
+    
     let transactionTableView: UITableView = {
         var tableView = UITableView()
-        tableView.backgroundColor = .blue
+        tableView.separatorStyle = .none
+        tableView.delaysContentTouches = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
-    let transactionsNavigationBar: UINavigationBar = {
-        let navigationBar = UINavigationBar()
+    let transactionsNavigationBar: TransactionsNavigationBar = {
+        let navigationBar = TransactionsNavigationBar()
         navigationBar.translatesAutoresizingMaskIntoConstraints = false
-        navigationBar.barTintColor = .red
         return navigationBar
     }()
 
@@ -61,6 +70,24 @@ class AccountViewController: UIViewController {
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v2]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v2]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
     }
+    
+    
+    func donutTogglePressed(sender: UIButton) {
+        print("start")
+        guard let header = sender.superview as? TotalsHeaderView else {return}
+        
+        DispatchQueue.main.async(){
+            if header.showDonutTransactions == true {
+                header.showDonutTransactions = false
+                header.layoutSubviews()
+            } else {
+                header.showDonutTransactions = true
+                header.layoutSubviews()
+            }
+        }
+        
+        print("working nigga")
+    }
 
 }
 
@@ -72,14 +99,19 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let defaultView = UITableViewHeaderFooterView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44))
         defaultView.textLabel?.text = "not working"
-        guard let transactionTotals = TransactionContainer.shared.transactionTotals[TransactionContainer.shared.dataKeys[section]] else {return defaultView}
-        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "totalsHeader")
-        view?.textLabel?.text = "\(transactionTotals.monthAndYear) Total Spending: \(transactionTotals.spendingWithDonuts)"
+        guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "totalsHeader") as? TotalsHeaderView else {return defaultView}
+        view.donutToggleButton.addTarget(self, action: #selector(donutTogglePressed), for: .touchUpInside)
         return view
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 44
+        return 66
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let header = view as? TotalsHeaderView else {return}
+        guard let monthAggregator = TransactionContainer.shared.transactionTotals[TransactionContainer.shared.dataKeys[section]] else {return }
+        header.setupHeader(monthAggregator: monthAggregator)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -98,24 +130,55 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        return 88
     }
 }
 
 extension AccountViewController: TransactionContainerDelegate {
     
     func errorGettingData(error: String) {
-        print(error)
+        showError(error: error)
     }
     
     func completedLoadingData() {
-        DispatchQueue.main.async(){
-            self.loadingOverlay.text = "Completed"
-            self.transactionTableView.reloadData()
-            
-            UIView.animate(withDuration: 2.4, animations: {
-                self.loadingOverlay.alpha = 0
-            })
+        self.loadingOverlay.text = "Completed"
+        self.transactionTableView.reloadData()
+        self.refreshData()
+        UIView.animate(withDuration: 1.4, animations: {
+            self.loadingOverlay.alpha = 0
+        })
+    }
+    
+    func refreshData() {
+        var months = 0
+        var averageSpendingWithDonuts = 0
+        var averageIncomeWithDonuts = 0
+        var averageSpendingWithoutDonuts = 0
+        var averageIncomeWithoutDonuts = 0
+        
+        for monthAggregator in TransactionContainer.shared.transactionTotals {
+            averageIncomeWithDonuts += monthAggregator.value.incomeWithDonuts
+            averageSpendingWithDonuts += monthAggregator.value.spendingWithDonuts
+            averageIncomeWithoutDonuts += monthAggregator.value.incomeWithoutDonuts
+            averageSpendingWithoutDonuts += monthAggregator.value.spendingWithoutDonuts
+            months += 1
         }
+        self.transactionsNavigationBar.spendingLabel.attributedText = AttributedStringSingleton.shared.transactionAmountAttributedString(amount: averageSpendingWithDonuts/months)
+        self.transactionsNavigationBar.incomeLabel.attributedText = AttributedStringSingleton.shared.transactionAmountAttributedString(amount: averageIncomeWithDonuts/months)
+        self.transactionsNavigationBar.layoutSubviews()
+    }
+    
+    func showError(error: String) {
+        errorAlert.text = error
+        self.view.addSubview(errorAlert)
+
+        UIView.animate(withDuration: 1, animations: {
+            self.errorAlert.center.y += 64
+        }) { (true) in
+            UIView.animate(withDuration: 1) {
+                self.errorAlert.center.y -= 64
+            }
+        }
+        
     }
 }

@@ -93,9 +93,12 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         defaultCell.textLabel?.text = "couldn't get cell"
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "transactionTableViewCell") as? TransactionTableViewCell else {return defaultCell}
         guard let transaction = TransactionContainer.shared.dataSource[TransactionContainer.shared.dataKeys[indexPath.section]]?[indexPath.row] else {return defaultCell}
-        print(transaction.merchant)
         cell.setupCell(transactionObject: transaction)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
     }
 }
 
@@ -110,7 +113,7 @@ extension AccountViewController: TransactionContainerDelegate {
             self.loadingOverlay.text = "Completed"
             self.transactionTableView.reloadData()
             
-            UIView.animate(withDuration: 3, animations: {
+            UIView.animate(withDuration: 2.4, animations: {
                 self.loadingOverlay.alpha = 0
             })
         }

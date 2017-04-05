@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		5B731B131E94403B00D135A6 /* TotalsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B731B121E94403B00D135A6 /* TotalsHeaderView.swift */; };
+		5BDA48771E945C7800D4C73F /* AttributedStringSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDA48761E945C7800D4C73F /* AttributedStringSingleton.swift */; };
+		5BDA487A1E945CC400D4C73F /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDA48791E945CC400D4C73F /* File.swift */; };
+		5BDA487C1E945CF700D4C73F /* TransactionTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDA487B1E945CF700D4C73F /* TransactionTypeEnum.swift */; };
 		5BEF3E9E1E92BF5500E8F191 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF3E9D1E92BF5500E8F191 /* AppDelegate.swift */; };
 		5BEF3EA01E92BF5500E8F191 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF3E9F1E92BF5500E8F191 /* AccountViewController.swift */; };
 		5BEF3EA51E92BF5500E8F191 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BEF3EA41E92BF5500E8F191 /* Assets.xcassets */; };
@@ -18,6 +21,9 @@
 
 /* Begin PBXFileReference section */
 		5B731B121E94403B00D135A6 /* TotalsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TotalsHeaderView.swift; sourceTree = "<group>"; };
+		5BDA48761E945C7800D4C73F /* AttributedStringSingleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributedStringSingleton.swift; sourceTree = "<group>"; };
+		5BDA48791E945CC400D4C73F /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		5BDA487B1E945CF700D4C73F /* TransactionTypeEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionTypeEnum.swift; sourceTree = "<group>"; };
 		5BEF3E9A1E92BF5500E8F191 /* CapitolOneCodingExercise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CapitolOneCodingExercise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BEF3E9D1E92BF5500E8F191 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5BEF3E9F1E92BF5500E8F191 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
@@ -39,6 +45,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5BDA48751E945C5F00D4C73F /* Helper Methods */ = {
+			isa = PBXGroup;
+			children = (
+				5BDA48761E945C7800D4C73F /* AttributedStringSingleton.swift */,
+			);
+			name = "Helper Methods";
+			sourceTree = "<group>";
+		};
+		5BDA48781E945CB600D4C73F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5BDA48791E945CC400D4C73F /* File.swift */,
+				5BDA487B1E945CF700D4C73F /* TransactionTypeEnum.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		5BEF3E911E92BF5500E8F191 = {
 			isa = PBXGroup;
 			children = (
@@ -58,7 +81,9 @@
 		5BEF3E9C1E92BF5500E8F191 /* CapitolOneCodingExercise */ = {
 			isa = PBXGroup;
 			children = (
+				5BDA48781E945CB600D4C73F /* Model */,
 				5BEF3EB51E93909C00E8F191 /* Views */,
+				5BDA48751E945C5F00D4C73F /* Helper Methods */,
 				5BEF3E9D1E92BF5500E8F191 /* AppDelegate.swift */,
 				5BEF3E9F1E92BF5500E8F191 /* AccountViewController.swift */,
 				5BEF3EB11E92C0DC00E8F191 /* TransactionContainer.swift */,
@@ -150,7 +175,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BDA48771E945C7800D4C73F /* AttributedStringSingleton.swift in Sources */,
+				5BDA487C1E945CF700D4C73F /* TransactionTypeEnum.swift in Sources */,
 				5BEF3EA01E92BF5500E8F191 /* AccountViewController.swift in Sources */,
+				5BDA487A1E945CC400D4C73F /* File.swift in Sources */,
 				5BEF3E9E1E92BF5500E8F191 /* AppDelegate.swift in Sources */,
 				5B731B131E94403B00D135A6 /* TotalsHeaderView.swift in Sources */,
 				5BEF3EB41E93909500E8F191 /* TransactionTableViewCell.swift in Sources */,

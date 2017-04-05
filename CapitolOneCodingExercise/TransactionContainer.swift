@@ -8,27 +8,6 @@
 
 import UIKit
 
-enum TransactionTypes: String {
-    case donutShop
-    case unknown
-}
-
-class MonthAggregator {
-    var monthAndYear: String
-    var incomeWithDonuts = 0
-    var incomeWithoutDonuts = 0
-    var spendingWithDonuts = 0
-    var spendingWithoutDonuts = 0
-    
-    init(monthAndYear: String, incomeWithDonuts: Int = 0, incomeWithoutDonuts: Int = 0, spendingWithDonuts: Int = 0, spendingWithoutDonuts: Int = 0) {
-        self.monthAndYear = monthAndYear
-        if incomeWithDonuts > 0 {self.incomeWithDonuts += incomeWithDonuts}
-        if incomeWithoutDonuts > 0 {self.incomeWithoutDonuts += incomeWithoutDonuts}
-        if spendingWithDonuts < 0 {self.spendingWithDonuts += spendingWithDonuts}
-        if spendingWithoutDonuts < 0 {self.spendingWithoutDonuts += spendingWithoutDonuts}
-    }
-}
-
 class TransactionObject {
     
     let amount: Int
@@ -56,7 +35,7 @@ class TransactionObject {
 class TransactionContainer: NSObject {
     typealias TransactionDataSource = [String: [TransactionObject]]
     typealias TransactionTotals = [String: MonthAggregator]
-    let session = URLSession(configuration: .ephemeral)
+    private let session = URLSession(configuration: .ephemeral)
     var delegate: TransactionContainerDelegate?
     
     static let shared = TransactionContainer()
@@ -70,16 +49,13 @@ class TransactionContainer: NSObject {
     }
     var dataKeys = [String]()
     
-    let transactionTimeFormatter: DateFormatter = {
+    private let transactionTimeFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.sss'Z'"
         return formatter
     }()
     
     func getAccountData() {
-        
-        var tempDataSource = TransactionDataSource()
-        var tempSectionKeys = [String: Bool]()
         
         let argumentsDictionary = ["args": [ "uid": 1110590645, "token": "C49D97196322A2DCE8543074FDFA1BA1", "api-token": "AppTokenForInterview", "json-strict-mode": false, "json-verbose-response": false]] as [String: Any]
         
@@ -116,55 +92,11 @@ class TransactionContainer: NSObject {
                 return
             }
 
-            for transaction in transactions {
-                
-                guard let amount = transaction["amount"] as? Int else {return}
-                guard let isPending = transaction["is-pending"] as? Bool else {return}
-                guard let cleared = transaction["clear-date"] as? Int else {return}
-                guard let transactionID = transaction["transaction-id"] as? String else {return}
-                guard let categorization = transaction["categorization"] as? String else {return}
-                guard let merchant = transaction["merchant"] as? String else {return}
-                guard let time = transaction["transaction-time"] as? String else {return}
-                
-                guard let transactionTime = self.transactionTimeFormatter.date(from: time) else {
-                    self.delegate?.errorGettingData(error: "Could not convert transaction time to Date().")
-                    break
-                }
-                
-                var transactionType: TransactionTypes
-                if merchant == "Krispy Kreme Donuts" || merchant == "DUNKIN #336784" {
-                    transactionType = .donutShop
-                } else {
-                    transactionType = .unknown
-                }
-                
-                let monthAndYear = String(time.characters.prefix(7))
-                tempSectionKeys.updateValue(true, forKey: monthAndYear)
-                
-                let clearedDate = Date(timeIntervalSince1970: TimeInterval(cleared))
-                
-                let transactionObject = TransactionObject(amount: amount, isPending: isPending, clearDate: clearedDate, id: transactionID, categorization: categorization, merchant: merchant, transactionType: transactionType, transactionTime: transactionTime)
-                
-                self.aggregateTotals(monthAndYear: monthAndYear, total: amount, category: transactionType)
-                
-                if var monthArray = tempDataSource[monthAndYear] {
-                    monthArray.append(transactionObject)
-                    monthArray.sort(by: { (first, second) -> Bool in
-                        return first.transactionTime > second.transactionTime
-                    })
-                    tempDataSource[monthAndYear] = monthArray
-                } else {
-                    tempDataSource.updateValue([transactionObject], forKey: monthAndYear)
-                }
-                
-                self.sectionKeys = tempSectionKeys
-                self.dataSource = tempDataSource
-                self.delegate?.completedLoadingData()
-            }
+            self.processDataFromAPI(transactions: transactions)
         }.resume()
     }
     
-    func aggregateTotals(monthAndYear: String, total: Int, category: TransactionTypes) {
+    private func aggregateTotals(monthAndYear: String, total: Int, category: TransactionTypes) {
         
         if let monthAggregator = transactionTotals[monthAndYear] {
             if category == .donutShop {
@@ -200,6 +132,58 @@ class TransactionContainer: NSObject {
                 }
             }
             transactionTotals.updateValue(monthAggregator, forKey: monthAndYear)
+        }
+    }
+    
+    private func processDataFromAPI(transactions: [[String: Any]]) {
+        
+        var tempDataSource = TransactionDataSource()
+        var tempSectionKeys = [String: Bool]()
+        
+        for transaction in transactions {
+            
+            guard let amount = transaction["amount"] as? Int else {return}
+            guard let isPending = transaction["is-pending"] as? Bool else {return}
+            guard let cleared = transaction["clear-date"] as? Int else {return}
+            guard let transactionID = transaction["transaction-id"] as? String else {return}
+            guard let categorization = transaction["categorization"] as? String else {return}
+            guard let merchant = transaction["merchant"] as? String else {return}
+            guard let time = transaction["transaction-time"] as? String else {return}
+            
+            guard let transactionTime = self.transactionTimeFormatter.date(from: time) else {
+                self.delegate?.errorGettingData(error: "Could not convert transaction time to Date().")
+                break
+            }
+            
+            var transactionType: TransactionTypes
+            if merchant == "Krispy Kreme Donuts" || merchant == "DUNKIN #336784" {
+                transactionType = .donutShop
+            } else {
+                transactionType = .unknown
+            }
+            
+            let monthAndYear = String(time.characters.prefix(7))
+            tempSectionKeys.updateValue(true, forKey: monthAndYear)
+            
+            let clearedDate = Date(timeIntervalSince1970: TimeInterval(cleared))
+            
+            let transactionObject = TransactionObject(amount: amount, isPending: isPending, clearDate: clearedDate, id: transactionID, categorization: categorization, merchant: merchant, transactionType: transactionType, transactionTime: transactionTime)
+            
+            self.aggregateTotals(monthAndYear: monthAndYear, total: amount, category: transactionType)
+            
+            if var monthArray = tempDataSource[monthAndYear] {
+                monthArray.append(transactionObject)
+                monthArray.sort(by: { (first, second) -> Bool in
+                    return first.transactionTime > second.transactionTime
+                })
+                tempDataSource[monthAndYear] = monthArray
+            } else {
+                tempDataSource.updateValue([transactionObject], forKey: monthAndYear)
+            }
+            
+            self.sectionKeys = tempSectionKeys
+            self.dataSource = tempDataSource
+            self.delegate?.completedLoadingData()
         }
     }
     

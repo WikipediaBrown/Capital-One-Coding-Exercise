@@ -65,25 +65,20 @@ class TransactionTableViewCell: UITableViewCell {
         let viewsDictionary = ["v0": merchantLabelView, "v1": transactionTimeView,"v2": amountView, "v3": transactionIDView,"v4": isPendingView]
         
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0][v1][v2]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0][v1][v2]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0][v3(70)]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v1][v3(70)]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v3][v3(70)]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0][v4(70)]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v1][v4(70)]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v3][v4(70)]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v3][v4]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v1]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v2]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[v3]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[v4]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
     }
     
     func setupCell(transactionObject: TransactionObject) {
-        self.merchantLabelView.text = transactionObject.merchant
-        self.transactionTimeView.text = transactionObject.transactionTime.description
-        self.amountView.text = String(transactionObject.amount)
-        self.transactionIDView.text = transactionObject.id
-        if transactionObject.isPending {
-            self.isPendingView.backgroundColor = .blue
-        } else {
-            self.isPendingView.backgroundColor = .green
-        }
+        self.merchantLabelView.attributedText = AttributedStringSingleton.shared.transactionMerchantAttributedString(merchant: transactionObject.merchant)
+        self.transactionTimeView.attributedText = AttributedStringSingleton.shared.transactionDateAttributedString(date: transactionObject.transactionTime)
+        self.amountView.attributedText = AttributedStringSingleton.shared.transactionAmountAttributedString(amount: transactionObject.amount)
+        self.transactionIDView.attributedText = AttributedStringSingleton.shared.transactionIDAttributedString(id: transactionObject.id)
+        self.isPendingView.attributedText = AttributedStringSingleton.shared.transactionPendingAttributedString(isPending: transactionObject.isPending)
     }
  
 }

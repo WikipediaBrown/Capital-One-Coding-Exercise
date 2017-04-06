@@ -10,16 +10,14 @@ import UIKit
 
 class AccountViewController: UIViewController {
     
-    
-    let loadingOverlay: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.backgroundColor = .black
-        label.alpha = 0.7
-        label.textAlignment = .center
-        label.textColor = .white
-        label.text = "Loading..."
-        return label
+    let progressBar: UIProgressView = {
+        let progressView = UIProgressView()
+        progressView.progress = 0
+        progressView.progressTintColor = .magenta
+        progressView.trackTintColor = .clear
+        progressView.tintColor = .clear
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        return progressView
     }()
     
     let errorAlert: UILabel = {
@@ -33,6 +31,7 @@ class AccountViewController: UIViewController {
     let transactionTableView: UITableView = {
         var tableView = UITableView()
         tableView.separatorStyle = .none
+        tableView.alpha = 0
         tableView.delaysContentTouches = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
@@ -40,6 +39,7 @@ class AccountViewController: UIViewController {
     
     let transactionsNavigationBar: TransactionsNavigationBar = {
         let navigationBar = TransactionsNavigationBar()
+        navigationBar.barTintColor = UIColor(colorLiteralRed: 54/255, green: 72/255, blue: 94/255, alpha: 1)
         navigationBar.translatesAutoresizingMaskIntoConstraints = false
         return navigationBar
     }()
@@ -50,10 +50,18 @@ class AccountViewController: UIViewController {
     }
 
     func setupViews() {
-        
+        self.view.backgroundColor = .white
         self.view.addSubview(transactionsNavigationBar)
         self.view.addSubview(transactionTableView)
-        self.view.addSubview(loadingOverlay)
+        self.view.addSubview(progressBar)
+        
+        self.transactionsNavigationBar.incomeLabel.alpha = 0
+        self.transactionsNavigationBar.incomeTitleLabel.alpha = 0
+        self.transactionsNavigationBar.spendingLabel.alpha = 0
+        self.transactionsNavigationBar.spendingTitleLabel.alpha = 0
+        self.transactionsNavigationBar.showCreditCardTransactionsButton.alpha = 0
+        self.transactionsNavigationBar.showCreditCardTransactionsButton.backgroundColor = .red
+        self.transactionsNavigationBar.showCreditCardTransactionsButton.addTarget(self, action: #selector(showCreditCardPaymentsButtontapped), for: .touchUpInside)
         
         TransactionContainer.shared.delegate = self
         transactionTableView.dataSource = self
@@ -61,21 +69,25 @@ class AccountViewController: UIViewController {
         self.transactionTableView.register(TotalsHeaderView.self, forHeaderFooterViewReuseIdentifier: "totalsHeader")
         self.transactionTableView.register(TransactionTableViewCell.self, forCellReuseIdentifier: "transactionTableViewCell")
 
-        let viewsDictionary = ["v0": transactionTableView, "v1": transactionsNavigationBar, "v2": loadingOverlay]
+        let viewsDictionary = ["v0": transactionTableView, "v1": transactionsNavigationBar, "v2": progressBar]
         
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v1(65)][v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v1]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
         
-        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v2]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v2(20)]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v2]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
     }
     
+    func showCreditCardPaymentsButtontapped() {
+        let creditCardPaymentsViewController = CreditCardPaymentsViewController()
+        self.present(creditCardPaymentsViewController, animated: true) {
+            print("working")
+        }
+    }
     
     func donutTogglePressed(sender: UIButton) {
-        print("start")
         guard let header = sender.superview as? TotalsHeaderView else {return}
-        
         DispatchQueue.main.async(){
             if header.showDonutTransactions == true {
                 header.showDonutTransactions = false
@@ -85,10 +97,7 @@ class AccountViewController: UIViewController {
                 header.layoutSubviews()
             }
         }
-        
-        print("working nigga")
     }
-
 }
 
 extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
@@ -141,12 +150,21 @@ extension AccountViewController: TransactionContainerDelegate {
     }
     
     func completedLoadingData() {
-        self.loadingOverlay.text = "Completed"
         self.transactionTableView.reloadData()
         self.refreshData()
         UIView.animate(withDuration: 1.4, animations: {
-            self.loadingOverlay.alpha = 0
+            self.progressBar.alpha = 0
+            self.transactionTableView.alpha = 1
+            self.transactionsNavigationBar.incomeLabel.alpha = 1
+            self.transactionsNavigationBar.incomeTitleLabel.alpha = 1
+            self.transactionsNavigationBar.spendingLabel.alpha = 1
+            self.transactionsNavigationBar.spendingTitleLabel.alpha = 1
+            self.transactionsNavigationBar.showCreditCardTransactionsButton.alpha = 1
         })
+    }
+    
+    func gettingAndProcessingRecords(withPercentageComplete percent: Float) {
+        self.progressBar.setProgress(percent, animated: true)
     }
     
     func refreshData() {

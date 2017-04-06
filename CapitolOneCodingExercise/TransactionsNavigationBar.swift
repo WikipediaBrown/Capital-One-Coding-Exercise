@@ -36,6 +36,13 @@ class TransactionsNavigationBar: UINavigationBar {
         return label
     }()
     
+    let showCreditCardTransactionsButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = UIScreen.main.bounds.width/18
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -46,22 +53,23 @@ class TransactionsNavigationBar: UINavigationBar {
     }
 
     func setupViews() {
-        barTintColor = UIColor(colorLiteralRed: 54/255, green: 72/255, blue: 94/255, alpha: 1)
-
         self.addSubview(spendingTitleLabel)
         self.addSubview(spendingLabel)
         self.addSubview(incomeTitleLabel)
         self.addSubview(incomeLabel)
-        
-        let viewsDictionary = ["v0": spendingTitleLabel,"v1": spendingLabel, "v2": incomeTitleLabel, "v3": incomeLabel]
+        self.addSubview(showCreditCardTransactionsButton)
+
+        let viewsDictionary = ["v0": spendingTitleLabel,"v1": spendingLabel, "v2": incomeTitleLabel, "v3": incomeLabel, "v4": showCreditCardTransactionsButton]
         
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[v0][v1]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[v2][v3]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[v4(\(UIScreen.main.bounds.width/9))]-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[v0]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[v1]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[v2]-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[v3]-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
-        
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-\((UIScreen.main.bounds.width/9)*4)-[v4]-\((UIScreen.main.bounds.width/9)*4)-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+
     }
 
 }

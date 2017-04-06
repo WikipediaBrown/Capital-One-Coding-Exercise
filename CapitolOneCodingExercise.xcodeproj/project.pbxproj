@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5B731B131E94403B00D135A6 /* TotalsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B731B121E94403B00D135A6 /* TotalsHeaderView.swift */; };
+		5BD71E8C1E96F822003103FC /* CreditCardPaymentsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD71E8B1E96F822003103FC /* CreditCardPaymentsHeaderView.swift */; };
 		5BDA48771E945C7800D4C73F /* AttributedStringSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDA48761E945C7800D4C73F /* AttributedStringSingleton.swift */; };
 		5BDA487A1E945CC400D4C73F /* MonthAggregator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDA48791E945CC400D4C73F /* MonthAggregator.swift */; };
 		5BDA487C1E945CF700D4C73F /* TransactionTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDA487B1E945CF700D4C73F /* TransactionTypeEnum.swift */; };
@@ -19,10 +20,13 @@
 		5BEF3EA81E92BF5500E8F191 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BEF3EA61E92BF5500E8F191 /* LaunchScreen.storyboard */; };
 		5BEF3EB21E92C0DC00E8F191 /* TransactionContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF3EB11E92C0DC00E8F191 /* TransactionContainer.swift */; };
 		5BEF3EB41E93909500E8F191 /* TransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF3EB31E93909500E8F191 /* TransactionTableViewCell.swift */; };
+		5BFCFA5A1E96B8A400D096D8 /* TransactionObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFCFA591E96B8A400D096D8 /* TransactionObject.swift */; };
+		5BFCFA5C1E96EFF300D096D8 /* CreditCardPaymentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFCFA5B1E96EFF300D096D8 /* CreditCardPaymentsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5B731B121E94403B00D135A6 /* TotalsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TotalsHeaderView.swift; sourceTree = "<group>"; };
+		5BD71E8B1E96F822003103FC /* CreditCardPaymentsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreditCardPaymentsHeaderView.swift; sourceTree = "<group>"; };
 		5BDA48761E945C7800D4C73F /* AttributedStringSingleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributedStringSingleton.swift; sourceTree = "<group>"; };
 		5BDA48791E945CC400D4C73F /* MonthAggregator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthAggregator.swift; sourceTree = "<group>"; };
 		5BDA487B1E945CF700D4C73F /* TransactionTypeEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionTypeEnum.swift; sourceTree = "<group>"; };
@@ -36,6 +40,8 @@
 		5BEF3EA91E92BF5500E8F191 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5BEF3EB11E92C0DC00E8F191 /* TransactionContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionContainer.swift; sourceTree = "<group>"; };
 		5BEF3EB31E93909500E8F191 /* TransactionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionTableViewCell.swift; sourceTree = "<group>"; };
+		5BFCFA591E96B8A400D096D8 /* TransactionObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionObject.swift; sourceTree = "<group>"; };
+		5BFCFA5B1E96EFF300D096D8 /* CreditCardPaymentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreditCardPaymentsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +68,7 @@
 			children = (
 				5BDA48791E945CC400D4C73F /* MonthAggregator.swift */,
 				5BDA487B1E945CF700D4C73F /* TransactionTypeEnum.swift */,
+				5BFCFA591E96B8A400D096D8 /* TransactionObject.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -86,11 +93,12 @@
 		5BEF3E9C1E92BF5500E8F191 /* CapitolOneCodingExercise */ = {
 			isa = PBXGroup;
 			children = (
+				5BEF3E9D1E92BF5500E8F191 /* AppDelegate.swift */,
 				5BDA48781E945CB600D4C73F /* Model */,
 				5BEF3EB51E93909C00E8F191 /* Views */,
 				5BDA48751E945C5F00D4C73F /* Helper Methods */,
-				5BEF3E9D1E92BF5500E8F191 /* AppDelegate.swift */,
 				5BEF3E9F1E92BF5500E8F191 /* AccountViewController.swift */,
+				5BFCFA5B1E96EFF300D096D8 /* CreditCardPaymentsViewController.swift */,
 				5BEF3EB11E92C0DC00E8F191 /* TransactionContainer.swift */,
 				5BEF3EA41E92BF5500E8F191 /* Assets.xcassets */,
 				5BEF3EA61E92BF5500E8F191 /* LaunchScreen.storyboard */,
@@ -104,6 +112,7 @@
 			children = (
 				5BEF3EB31E93909500E8F191 /* TransactionTableViewCell.swift */,
 				5B731B121E94403B00D135A6 /* TotalsHeaderView.swift */,
+				5BD71E8B1E96F822003103FC /* CreditCardPaymentsHeaderView.swift */,
 				5BDA487D1E95917000D4C73F /* TransactionsNavigationBar.swift */,
 			);
 			name = Views;
@@ -183,14 +192,17 @@
 			files = (
 				5BDA487E1E95917000D4C73F /* TransactionsNavigationBar.swift in Sources */,
 				5BDA48771E945C7800D4C73F /* AttributedStringSingleton.swift in Sources */,
+				5BFCFA5C1E96EFF300D096D8 /* CreditCardPaymentsViewController.swift in Sources */,
 				5BDA48801E95A68F00D4C73F /* README.md in Sources */,
 				5BDA487C1E945CF700D4C73F /* TransactionTypeEnum.swift in Sources */,
 				5BEF3EA01E92BF5500E8F191 /* AccountViewController.swift in Sources */,
 				5BDA487A1E945CC400D4C73F /* MonthAggregator.swift in Sources */,
 				5BEF3E9E1E92BF5500E8F191 /* AppDelegate.swift in Sources */,
 				5B731B131E94403B00D135A6 /* TotalsHeaderView.swift in Sources */,
+				5BD71E8C1E96F822003103FC /* CreditCardPaymentsHeaderView.swift in Sources */,
 				5BEF3EB41E93909500E8F191 /* TransactionTableViewCell.swift in Sources */,
 				5BEF3EB21E92C0DC00E8F191 /* TransactionContainer.swift in Sources */,
+				5BFCFA5A1E96B8A400D096D8 /* TransactionObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

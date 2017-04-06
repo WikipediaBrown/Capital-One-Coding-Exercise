@@ -68,6 +68,19 @@ class TransactionTableViewCell: UITableViewCell {
         return label
     }()
     
+    let categoryTitleView: UILabel = {
+        let label = UILabel()
+        label.attributedText = AttributedStringSingleton.shared.transactionTitleAttributedString(title: "Category")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let categoryView: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     let seperatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .lightGray
@@ -100,14 +113,16 @@ class TransactionTableViewCell: UITableViewCell {
         self.addSubview(amountTitleView)
         self.addSubview(amountView)
         self.addSubview(isPendingView)
+        self.addSubview(categoryTitleView)
+        self.addSubview(categoryView)
         self.addSubview(seperatorView)
 
-        let viewsDictionary = ["v0": merchantTitleLabelView,"v1": merchantLabelView, "v2": transactionTimeTitleView, "v3": transactionTimeView,"v4": transactionIDTitleView,"v5": transactionIDView, "v6": amountTitleView, "v7": amountView,"v8": isPendingView, "v9": seperatorView]
+        let viewsDictionary = ["v0": merchantTitleLabelView,"v1": merchantLabelView, "v2": transactionTimeTitleView, "v3": transactionTimeView,"v4": transactionIDTitleView,"v5": transactionIDView, "v6": amountTitleView, "v7": amountView,"v8": isPendingView, "v9": categoryTitleView, "v10": categoryView, "v11": seperatorView]
         
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0][v1][v2][v3][v4][v5][v9(1)]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v6][v7][v8]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0][v1][v2][v3][v4][v5][v11(1)]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v6][v7][v8][v9][v10]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[v0]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[v1]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[v1(\(UIScreen.main.bounds.width*0.57))]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[v2]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[v3]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[v4]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
@@ -115,7 +130,9 @@ class TransactionTableViewCell: UITableViewCell {
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[v6]-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[v7]-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[v8]-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[v9]-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[v9]-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[v10]-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[v11]-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
     }
     
     func setupCell(transactionObject: TransactionObject) {
@@ -124,6 +141,7 @@ class TransactionTableViewCell: UITableViewCell {
         self.amountView.attributedText = AttributedStringSingleton.shared.transactionAmountAttributedString(amount: transactionObject.amount)
         self.transactionIDView.attributedText = AttributedStringSingleton.shared.transactionIDAttributedString(id: transactionObject.id)
         self.isPendingView.attributedText = AttributedStringSingleton.shared.transactionPendingAttributedString(isPending: transactionObject.isPending)
+        self.categoryView.attributedText = AttributedStringSingleton.shared.transactionIDAttributedString(id: transactionObject.categorization)
     }
  
 }

@@ -61,7 +61,7 @@ class AttributedStringSingleton {
         formatter.numberStyle = .currency
         guard let dollars = formatter.string(from: NSNumber(value: Float(amount)/Float(100))) else {return NSMutableAttributedString(string: "Error")}
         
-        if amount > 0 {
+        if amount >= 0 {
             string = NSMutableAttributedString(string: dollars, attributes: creditAttributes)
         } else {
             string = NSMutableAttributedString(string: dollars, attributes: debitAttributes)
@@ -90,7 +90,7 @@ class AttributedStringSingleton {
         ]
         
         let formatter = DateFormatter()
-        formatter.dateStyle = .long
+        formatter.dateStyle = .medium
         formatter.timeStyle = .medium
         formatter.locale = Locale(identifier: "en_US")
         let dateString = formatter.string(from: date)

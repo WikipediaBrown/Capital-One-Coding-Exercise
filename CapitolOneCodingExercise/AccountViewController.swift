@@ -21,7 +21,7 @@ class AccountViewController: UIViewController {
     }()
     
     let errorAlert: UILabel = {
-        let label = UILabel(frame: CGRect(x: 0, y: -65, width: Int(UIScreen.main.bounds.width), height: Int(64)))
+        let label = UILabel(frame: CGRect(x: 0, y: -65, width: Int(UIScreen.main.bounds.width), height: Int(65)))
         label.backgroundColor = .red
         label.textAlignment = .center
         label.textColor = .white
@@ -197,16 +197,6 @@ extension AccountViewController: TransactionContainerDelegate {
                 self.errorAlert.center.y -= 65
             })
         })
-
-//        UIView.animate(withDuration: 1, animations: {
-//            self.errorAlert.center.y += 65
-//        }) { (true) in
-//            UIView.animate(withDuration: 2, delay: 7, usingSpringWithDamping: 0.2, initialSpringVelocity: 0.1, options: UIViewAnimationOptions.curveEaseInOut, animations: {
-//                self.errorAlert.center.y -= 65
-//            }, completion: { (true) in
-//                print("Here")
-//            })
-//        }
         
     }
 }

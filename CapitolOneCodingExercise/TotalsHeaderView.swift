@@ -128,12 +128,12 @@ class TotalsHeaderView: UITableViewHeaderFooterView {
             spendingLabel.attributedText = AttributedStringSingleton.shared.transactionTotalsAttributedString(amount: monthAggregator.spendingWithDonuts)
             incomeLabel.attributedText = AttributedStringSingleton.shared.transactionTotalsAttributedString(amount: monthAggregator.incomeWithDonuts)
             yearLabel.attributedText = AttributedStringSingleton.shared.transactionTitleAttributedString(title: String(monthAggregator.monthAndYear.characters.dropLast(3)))
-            monthLabel.attributedText = AttributedStringSingleton.shared.getMonthString(monthAndYear: monthAggregator.monthAndYear)
+            monthLabel.attributedText = AttributedStringSingleton.shared.getMonthString(monthAndYear: monthAggregator.monthAndYear, creditCardPayment: false)
         } else {
             spendingLabel.attributedText = AttributedStringSingleton.shared.transactionTotalsAttributedString(amount: monthAggregator.spendingWithoutDonuts)
             incomeLabel.attributedText = AttributedStringSingleton.shared.transactionTotalsAttributedString(amount: monthAggregator.incomeWithoutDonuts)
             yearLabel.attributedText = AttributedStringSingleton.shared.transactionTitleAttributedString(title: String(monthAggregator.monthAndYear.characters.dropLast(3)))
-            monthLabel.attributedText = AttributedStringSingleton.shared.getMonthString(monthAndYear: monthAggregator.monthAndYear)
+            monthLabel.attributedText = AttributedStringSingleton.shared.getMonthString(monthAndYear: monthAggregator.monthAndYear, creditCardPayment: false)
         }
     }
 

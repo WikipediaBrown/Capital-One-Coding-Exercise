@@ -12,7 +12,6 @@ class CreditCardPaymentsHeaderView: UITableViewHeaderFooterView {
 
     let yearLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = AttributedStringSingleton.shared.transactionTitleAttributedString(title: "2014")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -25,7 +24,7 @@ class CreditCardPaymentsHeaderView: UITableViewHeaderFooterView {
     
     let paymentTitleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = AttributedStringSingleton.shared.transactionTitleAttributedString(title: "Payment Amount")
+        label.attributedText = AttributedStringSingleton.shared.creditCardPaymentsTitleAttributedString(title: "Payment Amount")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -46,7 +45,6 @@ class CreditCardPaymentsHeaderView: UITableViewHeaderFooterView {
     }
     
     func setupViews() {
-
         self.addSubview(paymentTitleLabel)
         self.addSubview(paymentLabel)
         self.addSubview(yearLabel)
@@ -54,25 +52,18 @@ class CreditCardPaymentsHeaderView: UITableViewHeaderFooterView {
         
         let viewsDictionary = ["v0": paymentTitleLabel,"v1": paymentLabel, "v2": yearLabel, "v3": monthLabel]
         
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0][v1]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0][v1]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v2][v3]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[v0][v1]-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[v2][v3]-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[v0]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[v2]-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[v1]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[v3]-|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
     }
     
-//    func setupHeader(monthAggregator: MonthAggregator) {
-//        self.monthAggregator = monthAggregator
-//        if showDonutTransactions == true {
-//            spendingLabel.attributedText = AttributedStringSingleton.shared.transactionTotalsAttributedString(amount: monthAggregator.spendingWithDonuts)
-//            incomeLabel.attributedText = AttributedStringSingleton.shared.transactionTotalsAttributedString(amount: monthAggregator.incomeWithDonuts)
-//            yearLabel.attributedText = AttributedStringSingleton.shared.transactionTitleAttributedString(title: String(monthAggregator.monthAndYear.characters.dropLast(3)))
-//            monthLabel.attributedText = AttributedStringSingleton.shared.getMonthString(monthAndYear: monthAggregator.monthAndYear)
-//        } else {
-//            spendingLabel.attributedText = AttributedStringSingleton.shared.transactionTotalsAttributedString(amount: monthAggregator.spendingWithoutDonuts)
-//            incomeLabel.attributedText = AttributedStringSingleton.shared.transactionTotalsAttributedString(amount: monthAggregator.incomeWithoutDonuts)
-//            yearLabel.attributedText = AttributedStringSingleton.shared.transactionTitleAttributedString(title: String(monthAggregator.monthAndYear.characters.dropLast(3)))
-//            monthLabel.attributedText = AttributedStringSingleton.shared.getMonthString(monthAndYear: monthAggregator.monthAndYear)
-//        }
-//    }
+    func setupHeader(transactionObject: TransactionObject) {
+            paymentLabel.attributedText = AttributedStringSingleton.shared.creditCardPaymentAmountAttributedString(amount: abs(transactionObject.amount))
+            yearLabel.attributedText = AttributedStringSingleton.shared.creditCardPaymentsTitleAttributedString(title: String(transactionObject.monthAndYear.characters.dropLast(3)))
+            monthLabel.attributedText = AttributedStringSingleton.shared.getMonthString(monthAndYear: transactionObject.monthAndYear, creditCardPayment: true)
+    }
 
 }

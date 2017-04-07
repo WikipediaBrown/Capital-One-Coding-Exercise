@@ -11,7 +11,6 @@ import Foundation
 class TransactionObject {
     
     var hashValue: Int {
-        
         let hash = self.id.hashValue
         return hash
     }

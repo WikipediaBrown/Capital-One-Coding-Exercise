@@ -10,10 +10,14 @@ import UIKit
 
 class TransactionContainer: NSObject {
     
-    var delegate: TransactionContainerDelegate?
+    typealias TransactionDataSource = [String: [TransactionObject]]
+    typealias TransactionTotals = [String: MonthAggregator]
+    typealias ObjectKeys = [String: Bool]
+    typealias TransactionDictionary = [String: Any]
     
     static let shared = TransactionContainer()
-    
+    var delegate: TransactionContainerDelegate?
+
     var processingProgress: Float = 0.0 {
         didSet {
             DispatchQueue.main.async(){
@@ -22,21 +26,19 @@ class TransactionContainer: NSObject {
         }
     }
     
-    typealias TransactionDataSource = [String: [TransactionObject]]
-    typealias TransactionTotals = [String: MonthAggregator]
     private let session = URLSession(configuration: .ephemeral)
     
     var dataSource = TransactionDataSource()
     var transactionTotals = TransactionTotals()
     var creditCardPayments = TransactionDataSource()
-    private var sectionKeys = [String: Bool]() {
+    private var sectionKeys = ObjectKeys() {
         didSet {
            dataKeys = Array(sectionKeys.keys).sorted().reversed()
         }
     }
     var dataKeys = [String]()
     
-    private var creditCardPaymentSectionKeys = [String: Bool]() {
+    private var creditCardPaymentSectionKeys = ObjectKeys() {
         didSet {
             creditCardPaymentKeys = Array(creditCardPaymentSectionKeys.keys).sorted().reversed()
         }
@@ -51,7 +53,7 @@ class TransactionContainer: NSObject {
     
     func getAccountData() {
         
-        let argumentsDictionary = ["args": [ "uid": 1110590645, "token": "C49D97196322A2DCE8543074FDFA1BA1", "api-token": "AppTokenForInterview", "json-strict-mode": false, "json-verbose-response": false]] as [String: Any]
+        let argumentsDictionary = ["args": [ "uid": 1110590645, "token": "C49D97196322A2DCE8543074FDFA1BA1", "api-token": "AppTokenForInterview", "json-strict-mode": false, "json-verbose-response": false]] as TransactionDictionary
         
         guard let data = try? JSONSerialization.data(withJSONObject: argumentsDictionary, options: .prettyPrinted) else {
             self.delegate?.errorGettingData(error: "Could not serialize argument dictionary.")
@@ -70,24 +72,26 @@ class TransactionContainer: NSObject {
         
         session.dataTask(with: request) { (data, response, error) in
             if let error = error {
-                self.delegate?.errorGettingData(error: error.localizedDescription)
+                    self.sendError(error: error.localizedDescription)
                 return
             }
-            guard let data = data else {
-                self.delegate?.errorGettingData(error: "Error: Data object is nil.")
-                return
-            }
-            guard let jsonDictionary = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! [String: Any] else {
-                self.delegate?.errorGettingData(error: "Error: Problem serializing JSON data.")
-                return
-            }
-            guard let transactions = jsonDictionary["transactions"] as? [[String: Any]] else {
-                self.delegate?.errorGettingData(error: "Error: Problem reading transactions JSON data.")
-                return
+            guard
+                let data = data,
+                let jsonDictionary = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! TransactionDictionary,
+                let transactions = jsonDictionary["transactions"] as? [TransactionDictionary]
+            else {
+                self.sendError(error: "The transaction data is Kurupt like the rapper.")
+            return
             }
 
             self.processDataFromAPI(transactions: transactions)
         }.resume()
+    }
+    
+    private func sendError(error: String) {
+        DispatchQueue.main.async(){
+            self.delegate?.errorGettingData(error: error)
+        }
     }
     
     private func aggregateTotals(monthAndYear: String, total: Int, category: TransactionTypes) {
@@ -129,11 +133,11 @@ class TransactionContainer: NSObject {
         }
     }
     
-    private func processDataFromAPI(transactions: [[String: Any]]) {
+    private func processDataFromAPI(transactions: [TransactionDictionary]) {
         
         var tempDataSource = TransactionDataSource()
-        var tempSectionKeys = [String: Bool]()
-        var tempCreditCardPaymentSectionKeys = [String: Bool]()
+        var tempSectionKeys = ObjectKeys()
+        var tempCreditCardPaymentSectionKeys = ObjectKeys()
         var tempCreditCardTransactions = [TransactionObject]()
         var tempCreditCardPayments = TransactionDataSource()
 
@@ -287,10 +291,6 @@ protocol TransactionContainerDelegate {
     func completedLoadingData()
     func errorGettingData(error: String)
     func gettingAndProcessingRecords(withPercentageComplete percent: Float)
-}
-
-extension TransactionContainerDelegate {
-    func gettingAndProcessingRecords(withPercentageComplete percent: Float) {}
 }
 
 

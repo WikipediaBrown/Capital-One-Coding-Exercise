@@ -13,7 +13,7 @@ class AccountViewController: UIViewController {
     let progressBar: UIProgressView = {
         let progressView = UIProgressView()
         progressView.progress = 0
-        progressView.progressTintColor = .magenta
+        progressView.progressTintColor = UIColor(colorLiteralRed: 140/255, green: 0, blue: 0, alpha: 1)
         progressView.trackTintColor = .clear
         progressView.tintColor = .clear
         progressView.translatesAutoresizingMaskIntoConstraints = false
@@ -60,7 +60,7 @@ class AccountViewController: UIViewController {
         self.transactionsNavigationBar.spendingLabel.alpha = 0
         self.transactionsNavigationBar.spendingTitleLabel.alpha = 0
         self.transactionsNavigationBar.showCreditCardTransactionsButton.alpha = 0
-        self.transactionsNavigationBar.showCreditCardTransactionsButton.backgroundColor = .red
+        self.transactionsNavigationBar.showCreditCardTransactionsButton.backgroundColor = UIColor(colorLiteralRed: 140/255, green: 0, blue: 0, alpha: 1)
         self.transactionsNavigationBar.showCreditCardTransactionsButton.addTarget(self, action: #selector(showCreditCardPaymentsButtontapped), for: .touchUpInside)
         
         TransactionContainer.shared.delegate = self
@@ -146,7 +146,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
 extension AccountViewController: TransactionContainerDelegate {
     
     func errorGettingData(error: String) {
-        showError(error: error)
+        self.showError(error: error)
     }
     
     func completedLoadingData() {
@@ -193,9 +193,11 @@ extension AccountViewController: TransactionContainerDelegate {
         UIView.animate(withDuration: 1, animations: {
             self.errorAlert.center.y += 64
         }) { (true) in
-            UIView.animate(withDuration: 1) {
+            UIView.animate(withDuration: 2, delay: 1, usingSpringWithDamping: 0.2, initialSpringVelocity: 0.1, options: UIViewAnimationOptions.curveEaseInOut, animations: {
                 self.errorAlert.center.y -= 64
-            }
+            }, completion: { (true) in
+                print("Here")
+            })
         }
         
     }

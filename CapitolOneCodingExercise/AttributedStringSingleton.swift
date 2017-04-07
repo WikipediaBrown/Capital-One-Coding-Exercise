@@ -30,7 +30,7 @@ class AttributedStringSingleton {
         formatter.currencySymbol = "$"
         formatter.allowsFloats = true
         formatter.numberStyle = .currency
-        guard let dollars = formatter.string(from: NSNumber(value: Float(amount)/Float(100))) else {return NSMutableAttributedString(string: "Error")}
+        guard let dollars = formatter.string(from: NSNumber(value: Float(amount)/Float(10000))) else {return NSMutableAttributedString(string: "Error")}
         
         if amount > 0 {
             string = NSMutableAttributedString(string: dollars, attributes: creditAttributes)
@@ -59,7 +59,7 @@ class AttributedStringSingleton {
         formatter.currencySymbol = "$"
         formatter.allowsFloats = true
         formatter.numberStyle = .currency
-        guard let dollars = formatter.string(from: NSNumber(value: Float(amount)/Float(100))) else {return NSMutableAttributedString(string: "Error")}
+        guard let dollars = formatter.string(from: NSNumber(value: Float(amount)/Float(10000))) else {return NSMutableAttributedString(string: "Error")}
         
         if amount >= 0 {
             string = NSMutableAttributedString(string: dollars, attributes: creditAttributes)
@@ -67,6 +67,26 @@ class AttributedStringSingleton {
             string = NSMutableAttributedString(string: dollars, attributes: debitAttributes)
         }
         
+        return string
+    }
+    
+    func creditCardPaymentAmountAttributedString(amount: Int) -> NSAttributedString {
+        
+        let copyAttributes = [
+            NSFontAttributeName: UIFont.boldSystemFont(ofSize: 12),
+            NSForegroundColorAttributeName: UIColor.white
+        ]
+        
+        var string: NSMutableAttributedString
+        
+        let formatter = NumberFormatter()
+        formatter.currencySymbol = "$"
+        formatter.allowsFloats = true
+        formatter.numberStyle = .currency
+        guard let dollars = formatter.string(from: NSNumber(value: Float(amount)/Float(10000))) else {return NSMutableAttributedString(string: "Error")}
+        
+        string = NSMutableAttributedString(string: dollars, attributes: copyAttributes)
+
         return string
     }
     
@@ -147,6 +167,18 @@ class AttributedStringSingleton {
         return string
     }
     
+    func creditCardPaymentsTitleAttributedString(title: String) -> NSAttributedString {
+        
+        let copyAttributes = [
+            NSFontAttributeName: UIFont.boldSystemFont(ofSize: 8),
+            NSForegroundColorAttributeName: UIColor.white
+        ]
+        
+        let string = NSMutableAttributedString(string: title, attributes: copyAttributes)
+        
+        return string
+    }
+    
     func transactionNavigationBarAttributedString(title: String) -> NSAttributedString {
         
         let copyAttributes = [
@@ -159,7 +191,19 @@ class AttributedStringSingleton {
         return string
     }
     
-    func getMonthString(monthAndYear: String) -> NSAttributedString {
+    func creditCardPaymentsHeaderTitleAttributedString(title: String) -> NSAttributedString {
+        
+        let copyAttributes = [
+            NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.title3),
+            NSForegroundColorAttributeName: UIColor.white
+        ]
+        
+        let string = NSMutableAttributedString(string: title, attributes: copyAttributes)
+        
+        return string
+    }
+    
+    func getMonthString(monthAndYear: String, creditCardPayment: Bool) -> NSAttributedString {
         var month = String(monthAndYear.characters.dropFirst(5))
         
         switch month {
@@ -190,12 +234,21 @@ class AttributedStringSingleton {
         default:
             month = "Monthless"
         }
-        let copyAttributes = [
+        let transactionsAttributes = [
             NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline),
             NSForegroundColorAttributeName: UIColor.darkGray
         ]
         
-        let string = NSMutableAttributedString(string: month, attributes: copyAttributes)
+        let creditCardPaymentsAttributes = [
+            NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline),
+            NSForegroundColorAttributeName: UIColor.white
+        ]
+        var string: NSMutableAttributedString
+        if creditCardPayment {
+            string = NSMutableAttributedString(string: month, attributes: creditCardPaymentsAttributes)
+        } else {
+            string = NSMutableAttributedString(string: month, attributes: transactionsAttributes)
+        }
         
         return string
     }

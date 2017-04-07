@@ -12,7 +12,7 @@ class CreditCardPaymentsViewController: UIViewController {
     
     let creditCardPaymentsNavigationBar: TransactionsNavigationBar = {
         let navigationBar = TransactionsNavigationBar()
-        navigationBar.barTintColor = .red
+        navigationBar.barTintColor = UIColor(colorLiteralRed: 140/255, green: 0, blue: 0, alpha: 1)
         navigationBar.translatesAutoresizingMaskIntoConstraints = false
         return navigationBar
     }()
@@ -35,9 +35,10 @@ class CreditCardPaymentsViewController: UIViewController {
         self.view.addSubview(creditCardPaymentsNavigationBar)
         self.view.addSubview(creditCardPaymentsTableView)
         
-        self.creditCardPaymentsNavigationBar.incomeLabel.alpha = 0
+        self.creditCardPaymentsNavigationBar.incomeLabel.attributedText = AttributedStringSingleton.shared.creditCardPaymentsHeaderTitleAttributedString(title: "Payments")
+
         self.creditCardPaymentsNavigationBar.incomeTitleLabel.alpha = 0
-        self.creditCardPaymentsNavigationBar.spendingLabel.alpha = 0
+        self.creditCardPaymentsNavigationBar.spendingLabel.attributedText = AttributedStringSingleton.shared.creditCardPaymentsHeaderTitleAttributedString(title: "Credit Card")
         self.creditCardPaymentsNavigationBar.spendingTitleLabel.alpha = 0
         creditCardPaymentsTableView.dataSource = self
         creditCardPaymentsTableView.delegate = self
@@ -56,7 +57,6 @@ class CreditCardPaymentsViewController: UIViewController {
     
     func dismissCreditCardPaymentsButtontapped() {
         self.presentingViewController?.dismiss(animated: true, completion: { 
-            print("working")
         })
     }
 
@@ -75,13 +75,16 @@ extension CreditCardPaymentsViewController: UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 66
+        return 44
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        guard let header = view as? TotalsHeaderView else {return}
-        guard let monthAggregator = TransactionContainer.shared.transactionTotals[TransactionContainer.shared.dataKeys[section]] else {return }
-        header.setupHeader(monthAggregator: monthAggregator)
+        guard let header = view as? CreditCardPaymentsHeaderView else {return}
+        header.backgroundView?.backgroundColor = UIColor(colorLiteralRed: 54/255, green: 72/255, blue: 94/255, alpha: 1)
+        let date = TransactionContainer.shared.creditCardPaymentKeys[section]
+        guard let transactionArray = TransactionContainer.shared.creditCardPayments[date] else {return}
+        let transactionObject = transactionArray[0]
+        header.setupHeader(transactionObject: transactionObject)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -17,6 +17,7 @@
 		5BEF3EA01E92BF5500E8F191 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF3E9F1E92BF5500E8F191 /* AccountViewController.swift */; };
 		5BEF3EB21E92C0DC00E8F191 /* TransactionContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF3EB11E92C0DC00E8F191 /* TransactionContainer.swift */; };
 		5BEF3EB41E93909500E8F191 /* TransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF3EB31E93909500E8F191 /* TransactionTableViewCell.swift */; };
+		5BFA36331E976AA000F773BC /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5BFA36321E976AA000F773BC /* README.md */; };
 		5BFCFA5A1E96B8A400D096D8 /* TransactionObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFCFA591E96B8A400D096D8 /* TransactionObject.swift */; };
 		5BFCFA5C1E96EFF300D096D8 /* CreditCardPaymentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFCFA5B1E96EFF300D096D8 /* CreditCardPaymentsViewController.swift */; };
 /* End PBXBuildFile section */
@@ -39,6 +40,7 @@
 		5BF1511D1E9708B300E5C09E /* CapitolOneCodingExerciseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CapitolOneCodingExerciseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BF151211E9708B300E5C09E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5BF151271E9708F100E5C09E /* TransactionsContainerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionsContainerTests.swift; sourceTree = "<group>"; };
+		5BFA36321E976AA000F773BC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5BFCFA591E96B8A400D096D8 /* TransactionObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionObject.swift; sourceTree = "<group>"; };
 		5BFCFA5B1E96EFF300D096D8 /* CreditCardPaymentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreditCardPaymentsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -86,6 +88,7 @@
 				5BEF3E9C1E92BF5500E8F191 /* CapitolOneCodingExercise */,
 				5BF1511E1E9708B300E5C09E /* CapitolOneCodingExerciseTests */,
 				5BEF3E9B1E92BF5500E8F191 /* Products */,
+				5BFA36321E976AA000F773BC /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -218,6 +221,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BFA36331E976AA000F773BC /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

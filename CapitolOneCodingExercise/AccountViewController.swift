@@ -21,7 +21,7 @@ class AccountViewController: UIViewController {
     }()
     
     let errorAlert: UILabel = {
-        let label = UILabel(frame: CGRect(x: 0, y: -64, width: Int(UIScreen.main.bounds.width), height: Int(64)))
+        let label = UILabel(frame: CGRect(x: 0, y: -65, width: Int(UIScreen.main.bounds.width), height: Int(64)))
         label.backgroundColor = .red
         label.textAlignment = .center
         label.textColor = .white
@@ -75,7 +75,7 @@ class AccountViewController: UIViewController {
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v1]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
         
-        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v2(20)]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v2(7)]", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v2]|", options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
     }
     
@@ -189,16 +189,24 @@ extension AccountViewController: TransactionContainerDelegate {
     func showError(error: String) {
         errorAlert.text = error
         self.view.addSubview(errorAlert)
-
-        UIView.animate(withDuration: 1, animations: {
-            self.errorAlert.center.y += 64
-        }) { (true) in
-            UIView.animate(withDuration: 2, delay: 1, usingSpringWithDamping: 0.2, initialSpringVelocity: 0.1, options: UIViewAnimationOptions.curveEaseInOut, animations: {
-                self.errorAlert.center.y -= 64
-            }, completion: { (true) in
-                print("Here")
+        
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {
+            self.errorAlert.center.y += 65
+        }, completion: { (true) in
+            UIView.animate(withDuration: 2, delay: 7, usingSpringWithDamping: 0.2, initialSpringVelocity: 0.1, options: UIViewAnimationOptions.curveEaseInOut, animations: {
+                self.errorAlert.center.y -= 65
             })
-        }
+        })
+
+//        UIView.animate(withDuration: 1, animations: {
+//            self.errorAlert.center.y += 65
+//        }) { (true) in
+//            UIView.animate(withDuration: 2, delay: 7, usingSpringWithDamping: 0.2, initialSpringVelocity: 0.1, options: UIViewAnimationOptions.curveEaseInOut, animations: {
+//                self.errorAlert.center.y -= 65
+//            }, completion: { (true) in
+//                print("Here")
+//            })
+//        }
         
     }
 }

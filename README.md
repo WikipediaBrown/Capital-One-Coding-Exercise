@@ -1,5 +1,3 @@
-<snippet>
-<content><![CDATA[
 # Capital One Coding Excercise
 This project is a coding excercise from the good folks at Capital One. I completed it, and it's pretty sweet.'
 ## Requirments
@@ -20,4 +18,3 @@ Created by Perris Davis
 ## License
 MIT
 ]]></content>
-<tabTrigger>readme</tabTrigger>
